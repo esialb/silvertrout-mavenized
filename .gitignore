@@ -5,3 +5,6 @@
 /myconfig.xml
 /Silvertrout.iml
 /*.class
+/target
+/.settings
+/.classpath

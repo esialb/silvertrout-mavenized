@@ -21,10 +21,12 @@
  */
 package silvertrout;
 
+import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.io.InputStream;
 import java.net.URISyntaxException;
 import java.net.URL;
 
@@ -66,6 +68,13 @@ class PluginClassLoader extends ClassLoader {
                     throw new ClassNotFoundException(
                             "Class " + name + ".class does not exists");                
                 }
+                ByteArrayOutputStream bout = new ByteArrayOutputStream();
+                byte[] buf = new byte[8192];
+                InputStream s = u.openStream();
+                for(int r = s.read(buf); r != -1; r = s.read(buf))
+                	bout.write(buf, 0, r);
+                return defineClass(null, bout.toByteArray(), 0, bout.size());
+/*
                 File f = new File(u.toURI());
                 if (f.exists()) {
                     byte[] bytes = new byte[(int) f.length()];
@@ -78,6 +87,7 @@ class PluginClassLoader extends ClassLoader {
                     throw new ClassNotFoundException(
                             "Class " + name + ".class does not exists");
                 }
+*/
             } catch (FileNotFoundException e) {
                 throw new ClassNotFoundException(
                         "Class " + name + ".class does not exists");
@@ -87,10 +97,12 @@ class PluginClassLoader extends ClassLoader {
             } catch (ClassFormatError e) {
                 throw new ClassNotFoundException(
                         "Class " + name + ".class is not a valid class");
+/*
             }catch(URISyntaxException e) {
                 throw new ClassNotFoundException(
                         "String " + name + ".class could not be parsed as a"
                         + " URI reference");
+*/
             }
         } else {
             throw new ClassNotFoundException(

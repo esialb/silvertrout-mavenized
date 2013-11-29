@@ -59,9 +59,9 @@ public class Network {
 
     private final NetworkSettings networkSettings;
     private final User me;
-    private final Map<String, Channel> channels = new HashMap<String, Channel>();
-    private final Map<String, Channel> unjoinedChannels = new HashMap<String, Channel>();
-    private final Map<String, User> users = new HashMap<String, User>();
+    private final Map<String, Channel> channels = new CaseInsensitiveHashMap<Channel>();
+    private final Map<String, Channel> unjoinedChannels = new CaseInsensitiveHashMap<Channel>();
+    private final Map<String, User> users = new CaseInsensitiveHashMap<User>();
     private final Map<String, Plugin> plugins = new ConcurrentHashMap<String, Plugin>();
     private final IRC irc;
     private final IRCConnection connection; // do not instantiate here, let constructior decide what kind of IRCConnection we want
